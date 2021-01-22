@@ -3,10 +3,8 @@ package com.br.ng.forum.models;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +16,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="answers")
 public class Answer extends DomainEntity{
 
     private static final long serialVersionUID = 1L;

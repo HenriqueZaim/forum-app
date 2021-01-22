@@ -19,8 +19,6 @@ import lombok.Setter;
 public class Post extends NamedEntity{
 
     private static final long serialVersionUID = 1L;
-    
-    private Integer likeCount;
 
     @ManyToOne
     private User user;

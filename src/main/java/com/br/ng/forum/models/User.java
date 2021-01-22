@@ -21,4 +21,9 @@ public class User extends NamedEntity{
     
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
+
+    private String email;
+    private String password;
+    private String roles;
+    private boolean active;
 }
