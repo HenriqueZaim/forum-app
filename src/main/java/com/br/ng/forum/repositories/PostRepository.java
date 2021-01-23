@@ -1,5 +1,6 @@
 package com.br.ng.forum.repositories;
 
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -16,4 +17,7 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long>{
 
     @Transactional
     Page<Post> findByTitleNotNull(Pageable pageRequest);
+
+    @Transactional
+    List<Post> findByUserId(Long id);
 }

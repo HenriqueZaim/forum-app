@@ -3,6 +3,8 @@ package com.br.ng.forum.models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,6 +28,10 @@ public class Post extends DomainEntity{
     @ManyToOne
     private User user;
 
-    @OneToMany()
+    @ManyToOne
+    @JoinColumn(name = "parent_post_id", nullable = true)
+    private Post parentPost;
+
+    @OneToMany(mappedBy = "parentPost")
     private List<Post> answers;
 }

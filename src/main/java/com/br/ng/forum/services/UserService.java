@@ -2,6 +2,7 @@ package com.br.ng.forum.services;
 
 import java.time.OffsetDateTime;
 
+import com.br.ng.forum.config.security.LoginService;
 import com.br.ng.forum.models.User;
 import com.br.ng.forum.repositories.UserRepository;
 
@@ -18,14 +19,17 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCrypt;
 
-    // salvar
+    @Autowired
+    private LoginService loginService;
+
     public User save(User user){
         user.setCreatedAt(OffsetDateTime.now());
         user.setPassword(bCrypt.encode(user.getPassword().trim()));
         return userRepository.save(user);
     }
-    // alterar
 
-    // listar
-
+    public User find(){
+        return userRepository.findById(loginService.authenticated().getId()).get();
+    }
+    
 }

@@ -7,8 +7,9 @@ import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
-import com.br.ng.forum.DTOs.request.UserRequestDTO;
-import com.br.ng.forum.DTOs.response.PostResponseDTO;
+import com.br.ng.forum.DTOs.post.response.PostResponseDTO;
+import com.br.ng.forum.DTOs.user.request.UserRequestDTO;
+import com.br.ng.forum.DTOs.user.response.UserResponseDTO;
 import com.br.ng.forum.models.Post;
 import com.br.ng.forum.models.User;
 import com.br.ng.forum.services.PostService;
@@ -17,6 +18,7 @@ import com.br.ng.forum.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -86,8 +88,20 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping(path = "/post/new", method = RequestMethod.GET)
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/posts/new", method = RequestMethod.GET)
     public String newPost(){
         return "post/edit";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/profile", method = RequestMethod.GET)
+    public String profile(Model model){
+        List<PostResponseDTO> posts = postService.findByUserId()
+                                .stream()
+                                    .map(obj -> modelMapper.map(obj, PostResponseDTO.class))
+                                    .collect(Collectors.toList());
+        model.addAttribute("posts", posts);
+        return "user/edit";
     }
 }

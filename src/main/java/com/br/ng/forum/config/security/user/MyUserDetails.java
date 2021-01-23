@@ -23,12 +23,16 @@ public class MyUserDetails implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+    private String name;
     private String email;
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 
     public MyUserDetails(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();
