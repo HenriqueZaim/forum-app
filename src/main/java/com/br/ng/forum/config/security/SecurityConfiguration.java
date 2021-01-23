@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -23,10 +22,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     private static final String[] PUBLIC_MATCHERS = {
         "/h2-console/**",
+        "/"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
         "/register",
+        
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
@@ -41,13 +42,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
-                .antMatchers(PUBLIC_MATCHERS).permitAll()
-                .and().formLogin();
-
-                http.csrf().disable();
-                http.headers().frameOptions().disable();
+            .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+            .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+            .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .anyRequest().authenticated()
+        .and()
+        .formLogin()
+            .loginPage("/login").permitAll()
+            .loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password")
+            .failureUrl("/login?error=true").defaultSuccessUrl("/")
+        .and()
+            .csrf().disable()
+            .logout()
+                .logoutSuccessUrl("/")
+                .logoutUrl("/logout");
+                
+        http.headers().frameOptions().disable();
     }
 
     @Bean

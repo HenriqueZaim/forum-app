@@ -1,21 +1,24 @@
 package com.br.ng.forum.DTOs.response;
 
+import java.io.Serializable;
+import java.time.OffsetDateTime;
 import java.util.List;
-
-import com.br.ng.forum.models.User;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PostResponseDTO {
+public class PostResponseDTO implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
     
     private Integer id;
-    private String name;
+    private String title;
     private String text;
-    private Long followsUp;
     private UserResponseDTO user;
     private List<PostResponseDTO> answers;
 
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 }

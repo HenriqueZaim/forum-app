@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:include="fragments/header.html :: header"></th:block>
+    <title>Home | Fórum NG</title>
+    <style>
+        .add-topic-square{
+            color: #999999;
+            transition: all 150ms ease-in;
+        }
+        
+        .add-topic-square:hover, .add-topic-square:focus{
+            border-color: indigo;
+            color: indigo !important;
+            cursor: pointer;
+        }
+
+        .instant-reply{
+            border: 1px solid #f0f0f0;
+            border-radius: 50%;
+            transition: all 150ms ease-in;
+            background-color: #ffffff;
+        }
+
+        .instant-reply:hover, .instant-reply:focus{
+            border-color: #cccccc;
+            background-color: #f0f0f0;
+        }
+
+        .card{
+            border-top: 3px indigo solid;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <th:block th:include="fragments/navbar.html :: navbar"></th:block>
+
+    <main class="content">
+        <div class="container mt-5">
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent px-0 mb-0 pb-0">
+                          <li class="breadcrumb-item active" aria-current="page">Início</li>
+                        </ol>
+                      </nav>
+                    <h1 class="display-4">Bem vindo ao fórum!</h1>
+                    <p class="lead text-muted">Publique, troque ideias e seja feliz</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-4">
+                <div class="col-lg-8 order-lg-0 order-1 my-2">
+
+                </div>
+                <div class="col-lg-4 order-lg-1 order-0 my-2">
+                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5 add-topic-square">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card-body d-flex justify-content-center align-items-center flex-column ">
+                                <i class="fas fa-plus fa-2x "></i>
+                                <p class="mt-4 fa-lg">Adicionar novo post</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- <th:block th:include="fragments/footer.html :: footer"></th:block> -->
+
+    <th:block th:include="fragments/scripts.html :: scripts"></th:block>
+</body>
+</html>
