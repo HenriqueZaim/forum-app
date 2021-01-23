@@ -1,6 +1,7 @@
 package com.br.ng.forum.DTOs.post.response;
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.br.ng.forum.DTOs.user.response.UserResponseDTO;
@@ -20,5 +21,8 @@ public class PostChildrenResponseDTO implements Serializable{
     private UserResponseDTO user;
     private PostSimpleResponseDTO parentPost;
     private List<PostChildrenResponseDTO> answers;
+
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
 }

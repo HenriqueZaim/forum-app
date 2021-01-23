@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends PagingAndSortingRepository<Post, Long>{
 
     @Transactional
-    Page<Post> findByTitleNotNull(Pageable pageRequest);
+    Page<Post> findByParentPostNull(Pageable pageRequest);
 
     @Transactional
     List<Post> findByUserId(Long id);

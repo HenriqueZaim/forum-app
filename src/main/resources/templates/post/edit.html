@@ -32,6 +32,11 @@
             border-top-right-radius: 10px;
             border-top-left-radius: 10px;
         }
+        .card.answer{
+            border-top: 3px rgb(75, 75, 75) solid;
+            border-top-right-radius: 0px;
+            border-top-left-radius: 0px;
+        }
     </style>
 </head>
 <body>
@@ -43,26 +48,43 @@
                 <div class="col">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent px-0 mb-0 pb-0">
-                          <li class="breadcrumb-item active" aria-current="page">Início</li>
+                          <li class="breadcrumb-item ">
+                            <a th:href="@{/}">Início</a>
+                          </li>
+                          <li class="breadcrumb-item active" aria-current="page">Novo post</li>
                         </ol>
                       </nav>
-                    <h1 class="display-4">Bem vindo ao fórum!</h1>
-                    <p class="lead text-muted">Publique, troque ideias e seja feliz</p>
+                     <h1 class="display-4" th:if="${post.id == null}">Novo post</h1>
+                     <h1 class="display-4" th:if="${post.id != null}">Atualizar post</h1>
                 </div>
             </div>
             <hr>
-            <div class="row mb-4">
-                <div class="col-lg-8 order-lg-0 order-1 my-2">
-
+            <th:block th:if="${erros != null}">
+                <div class="alert alert-danger" role="alert">
+                    <span class="help-block">
+                        <i class="fa fa-exclamation-circle"></i>
+                        <span th:text="${erros}"></span>
+                    </span>
                 </div>
-                <div class="col-lg-4 order-lg-1 order-0 my-2">
-                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5 add-topic-square">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card-body d-flex justify-content-center align-items-center flex-column ">
-                                <i class="fas fa-plus fa-2x "></i>
-                                <p class="mt-4 fa-lg">Adicionar novo post</p>
+            </th:block>
+            <div class="row mb-4">
+                <div class="col-lg-12 order-lg-0 order-1 my-2">
+                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">
+                        <form th:action="${post.id == null} ? @{/posts/save} : @{/posts/update}" th:object="${post}" method="post">
+                            <input type="hidden" name="id" th:value="${post.id}">
+                            <div class="form-group">
+                                <label for="title">Título</label>
+                                <input type="text" class="form-control" th:field="*{title}" aria-describedby="helpId" placeholder="Digite..">
+                                <small id="helpId" class="form-text text-muted">Simples pra não quebrar!</small>
                             </div>
-                        </a>
+                            <div class="form-group">
+                                <label for="editor1" class="sr-only">Texto</label>
+                                <textarea id="editor1" th:field="*{text}" rows="2"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-success float-right " th:if="${post.id == null}">Adicionar post</button>
+                            <button type="submit" class="btn btn-sm btn-success float-right " th:if="${post.id != null}">Atualizar post</button>
+                        </form>
+
                     </div>
                 </div>
             </div>

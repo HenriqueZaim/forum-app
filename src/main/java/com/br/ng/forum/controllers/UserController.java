@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import com.br.ng.forum.DTOs.post.response.PostResponseDTO;
 import com.br.ng.forum.DTOs.user.request.UserRequestDTO;
-import com.br.ng.forum.DTOs.user.response.UserResponseDTO;
 import com.br.ng.forum.models.Post;
 import com.br.ng.forum.models.User;
 import com.br.ng.forum.services.PostService;
@@ -41,16 +40,15 @@ public class UserController {
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ModelAndView save(@Valid UserRequestDTO userRequestDTO, BindingResult result){
-        ModelAndView mv = new ModelAndView();
-        if(result.hasErrors()){
-            System.err.println("enois validacao");
-            mv.setViewName("register");
+        ModelAndView mv = new ModelAndView("redirect:/profile");;
+        if (result.hasErrors()) {
+            mv.addObject("erros", "Erros no formulário");
             return mv;
-        }
+		}
         userService.save(modelMapper.map(userRequestDTO, User.class));
-        mv.setViewName("home");
         return mv;
     }
+
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String register(Model model){
@@ -88,11 +86,7 @@ public class UserController {
         return mv;
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(path = "/posts/new", method = RequestMethod.GET)
-    public String newPost(){
-        return "post/edit";
-    }
+
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/profile", method = RequestMethod.GET)
