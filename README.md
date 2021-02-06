@@ -1,2 +1,2 @@
 # forum-app
-App for NewGo job interview
+Forum with topics and answers created with Spring Boot
