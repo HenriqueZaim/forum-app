@@ -27,13 +27,13 @@ public class DBService {
     private PostRepository postRepository;
 
     public void instantiateTestDatabase() throws ParseException {
-        User user1 = new User("User 1","user1@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList());
+        User user1 = new User("User 1","user1@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList(), null);
         user1.setCreatedAt(OffsetDateTime.now());
 
-        User user2 = new User("User 2","user2@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList());
+        User user2 = new User("User 2","user2@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList(), null);
         user2.setCreatedAt(OffsetDateTime.now());
 
-        User user3 = new User("User 3","user3@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList());
+        User user3 = new User("User 3","user3@mail.com", bCrypt.encode("qwer1234"), "USER", true, Collections.emptyList(), null);
         user3.setCreatedAt(OffsetDateTime.now());
 
         userRepository.saveAll(

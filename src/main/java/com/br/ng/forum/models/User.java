@@ -20,8 +20,10 @@ public class User extends DomainEntity{
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
     private String role;
@@ -29,6 +31,9 @@ public class User extends DomainEntity{
     
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
+
+    private String image;
+
 
 
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -39,22 +40,21 @@ public class UserController {
     private PostService postService;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ModelAndView save(@Valid UserRequestDTO userRequestDTO, BindingResult result){
-        ModelAndView mv = new ModelAndView("redirect:/profile");;
+    public ModelAndView save(@Valid UserRequestDTO userRequestDTO, BindingResult result, RedirectAttributes attributes){
         if (result.hasErrors()) {
-            mv.addObject("erros", "Erros no formulário");
-            return mv;
-		}
+            return register(userRequestDTO);
+        }
+
         userService.save(modelMapper.map(userRequestDTO, User.class));
-        return mv;
+        attributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
+        return new ModelAndView("redirect:/login");
     }
 
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
-    public String register(Model model){
-        UserRequestDTO userRequestDTO = new UserRequestDTO();
-        model.addAttribute("user", userRequestDTO);
-        return "register";
+    public ModelAndView register(UserRequestDTO userRequestDTO){
+        ModelAndView mv = new ModelAndView("register");
+        return mv;
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)

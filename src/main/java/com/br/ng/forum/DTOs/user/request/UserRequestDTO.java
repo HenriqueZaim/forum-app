@@ -15,13 +15,13 @@ public class UserRequestDTO implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @NotBlank
+    @NotBlank(message = "Campo 'nome' não pode ser vazio")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Campo 'e-mail' não pode ser vazio")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Campo 'senha' não pode ser vazio")
     private String password;
 
     private String role;

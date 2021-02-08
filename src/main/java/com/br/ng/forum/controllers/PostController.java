@@ -46,12 +46,13 @@ public class PostController {
     }
 
     @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
-    public String findPost(@PathVariable Long id, Model model){
-        PostResponseDTO postDTO = modelMapper.map(postService.findById(id), PostResponseDTO.class);
+    public ModelAndView findPost(@PathVariable("id") Post post){
+        PostResponseDTO postDTO = modelMapper.map(post, PostResponseDTO.class);
+        ModelAndView mv = new ModelAndView("post/list");
         PostAnswerRequestDTO postAnswerRequestDTO = new PostAnswerRequestDTO();
-        model.addAttribute("newanswer", postAnswerRequestDTO);
-        model.addAttribute("post", postDTO);
-        return "post/list";
+        mv.addObject("newanswer", postAnswerRequestDTO);
+        mv.addObject("post", postDTO);
+        return mv;
     }
 
     @PreAuthorize("isAuthenticated()")
