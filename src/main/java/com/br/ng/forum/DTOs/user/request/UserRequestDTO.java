@@ -2,6 +2,7 @@ package com.br.ng.forum.DTOs.user.request;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -15,20 +16,19 @@ public class UserRequestDTO implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Campo 'nome' não pode ser vazio")
+    @NotBlank(message = "Campo Nome não pode ser vazio")
     private String name;
 
-    @NotBlank(message = "Campo 'e-mail' não pode ser vazio")
+    @NotBlank(message = "Campo E-mail não pode ser vazio")
+    @Email(message = "Insira um E-mail válido")
     private String email;
 
-    @NotBlank(message = "Campo 'senha' não pode ser vazio")
+    @NotBlank(message = "Campo Senha não pode ser vazio")
     private String password;
 
     private String role;
-    private boolean active;
 
     public UserRequestDTO(){
-        this.active = true;
-        this.role = "USER";
+        this.role = (role == null ? "USER" : role);
     }
 }

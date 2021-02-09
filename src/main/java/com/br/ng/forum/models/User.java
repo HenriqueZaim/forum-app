@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,15 +24,17 @@ public class User extends DomainEntity{
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String role;
-    private boolean active;
     
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
     private String image;
-
 
 
 }

@@ -3,6 +3,7 @@ package com.br.ng.forum.services;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import com.br.ng.forum.config.security.LoginService;
 import com.br.ng.forum.models.Post;
@@ -24,7 +25,7 @@ public class PostService {
     @Autowired
     private LoginService loginService;
 
-    public Post save(Post post, Long postParentId){
+    public Post save(Post post, UUID postParentId){
         Post parentPost = postRepository.findById(postParentId).get();
         post.setParentPost(parentPost);
         post.setCreatedAt(OffsetDateTime.now());
@@ -48,13 +49,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post findById(Long id){
+    public Post findById(UUID id){
         return postRepository.findById(id).get();
     }
 
     public Page<Post> search(Integer page, Integer linesPerPage){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.by(Sort.Direction.DESC,"createdAt"));
-        Page<Post> list = postRepository.findByParentPostNull(pageRequest);
+        Page<Post> list = postRepository.findByDeletedAtNull(pageRequest);
         return list;
     }
 

@@ -1,8 +1,10 @@
 package com.br.ng.forum.controllers;
 
+
 import com.br.ng.forum.models.Image;
 import com.br.ng.forum.services.UserService;
 import com.br.ng.forum.services.storage.ImageReader;
+import com.devskiller.friendly_id.FriendlyId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,8 @@ public class ImageController {
 
     @PostMapping("/users/{id}")
     @ResponseBody
-    public Image uploadUserImage(@PathVariable Long id, @RequestParam("files[]") MultipartFile[] files){
-        userService.addImage(id, files[0]);
+    public Image uploadUserImage(@PathVariable String id, @RequestParam("files[]") MultipartFile[] files){
+        userService.addImage(FriendlyId.toUuid(id), files[0]);
         return new Image(files[0].getOriginalFilename());
     }
 

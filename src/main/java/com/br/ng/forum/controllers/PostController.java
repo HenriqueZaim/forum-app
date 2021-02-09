@@ -1,6 +1,8 @@
 package com.br.ng.forum.controllers;
 
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import com.br.ng.forum.DTOs.post.request.PostAnswerRequestDTO;
@@ -39,7 +41,7 @@ public class PostController {
     }
 
     @RequestMapping(path = "/posts/update/{id}", method = RequestMethod.GET)
-    public String updatePost(@PathVariable Long id, Model model){
+    public String updatePost(@PathVariable UUID id, Model model){
         PostRequestDTO postDTO =  modelMapper.map(postService.findById(id), PostRequestDTO.class);
         model.addAttribute("post", postDTO);
         return "post/edit";
@@ -58,7 +60,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/posts/update", method = RequestMethod.POST)
     public ModelAndView addAnswer(@Valid PostRequestDTO postRequestDTO, BindingResult result, RedirectAttributes atributos){
-        ModelAndView mv = new ModelAndView("redirect:/posts/update/"+Long.toString(postRequestDTO.getId()));
+        ModelAndView mv = new ModelAndView("redirect:/posts/update/"+postRequestDTO.getId().toString());
 
         if (result.hasErrors()) {
             mv.addObject("erros", "Erros no formulário");
@@ -73,7 +75,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/posts/{id}/newanswher", method = RequestMethod.POST)
-    public ModelAndView addAnswer(@Valid PostAnswerRequestDTO postAnswerRequestDTO, @PathVariable Long id, BindingResult result){
+    public ModelAndView addAnswer(@Valid PostAnswerRequestDTO postAnswerRequestDTO, @PathVariable UUID id, BindingResult result){
         ModelAndView mv = new ModelAndView("redirect:/posts/"+id);
         if (result.hasErrors()) {
             mv.addObject("erros", "Erros no formulário");

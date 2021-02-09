@@ -2,6 +2,7 @@ package com.br.ng.forum.config.security.user;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.br.ng.forum.models.User;
@@ -23,7 +24,7 @@ public class MyUserDetails implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
     private String password;
@@ -35,7 +36,7 @@ public class MyUserDetails implements UserDetails{
         this.name = user.getName();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.active = user.isActive();
+        this.active = user.getDeletedAt() == null;
         this.authorities = Arrays.stream(user.getRole().split(","))
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());

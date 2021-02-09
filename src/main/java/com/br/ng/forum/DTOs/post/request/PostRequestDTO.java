@@ -2,6 +2,7 @@ package com.br.ng.forum.DTOs.post.request;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
@@ -14,7 +15,7 @@ public class PostRequestDTO implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    private Long id;
+    private UUID id;
 
     @NotBlank(message = "Campo 'Título' não pode estar em branco!")
     private String title;

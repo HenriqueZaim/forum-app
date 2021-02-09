@@ -1,7 +1,7 @@
 package com.br.ng.forum.services;
 
-import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
 import com.br.ng.forum.config.security.LoginService;
@@ -29,18 +29,17 @@ public class UserService {
     private ImageStorage imageStorage;
 
     public User save(User user){
-        user.setCreatedAt(OffsetDateTime.now());
         user.setPassword(bCrypt.encode(user.getPassword().trim()));
         return userRepository.save(user);
     }
 
-    public void addImage(Long id, MultipartFile image){
+    public void addImage(UUID id, MultipartFile image){
         User user = findById(id);
         user.setImage(imageStorage.save(image));
         userRepository.save(user);
     }
 
-    public User findById(Long id){
+    public User findById(UUID id){
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
     }
