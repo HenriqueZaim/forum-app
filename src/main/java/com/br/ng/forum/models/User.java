@@ -15,12 +15,9 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends DomainEntity{
+public class User extends NamedEntity{
 
     private static final long serialVersionUID = 1L;
-
-    @Column(nullable = false)
-    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -32,9 +29,9 @@ public class User extends DomainEntity{
     private String role;
     
     @OneToMany(mappedBy = "user")
-    private List<Post> posts;
+    private List<Topic> posts;
 
-    private String image;
-
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers;
 
 }

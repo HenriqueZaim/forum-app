@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.br.ng.forum.config.security.LoginService;
-import com.br.ng.forum.models.Post;
+import com.br.ng.forum.models.Topic;
 import com.br.ng.forum.models.User;
-import com.br.ng.forum.repositories.PostRepository;
+import com.br.ng.forum.repositories.TopicRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,22 +17,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PostService {
+public class TopicService {
     
     @Autowired
-    private PostRepository postRepository;
+    private TopicRepository postRepository;
 
     @Autowired
     private LoginService loginService;
 
-    public Post save(Post post, UUID postParentId){
-        Post parentPost = postRepository.findById(postParentId).get();
-        post.setParentPost(parentPost);
-        post.setCreatedAt(OffsetDateTime.now());
-        return postRepository.save(post);
-    }
-
-    public Post save(Post post){
+    public Topic save(Topic post){
         User user = new User();
         user.setId(loginService.authenticated().getId());
         post.setUser(user);
@@ -40,7 +33,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post update(Post post){
+    public Topic update(Topic post){
         post.setCreatedAt(findById(post.getId()).getCreatedAt());
         post.setUpdatedAt(OffsetDateTime.now());
         User user = new User();
@@ -49,18 +42,18 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post findById(UUID id){
+    public Topic findById(UUID id){
         return postRepository.findById(id).get();
     }
 
-    public Page<Post> search(Integer page, Integer linesPerPage){
+    public Page<Topic> search(Integer page, Integer linesPerPage){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.by(Sort.Direction.DESC,"createdAt"));
-        Page<Post> list = postRepository.findByDeletedAtNull(pageRequest);
+        Page<Topic> list = postRepository.findByDeletedAtNull(pageRequest);
         return list;
     }
 
-    public List<Post> findByUserId(){
-        return postRepository.findByUserId(loginService.authenticated().getId());
+    public List<Topic> findByUserId(){
+        return postRepository.findByDeletedAtNullAndUserId(loginService.authenticated().getId());
     }
 
 }

@@ -9,9 +9,9 @@ import javax.validation.Valid;
 
 import com.br.ng.forum.DTOs.post.response.PostResponseDTO;
 import com.br.ng.forum.DTOs.user.request.UserRequestDTO;
-import com.br.ng.forum.models.Post;
+import com.br.ng.forum.models.Topic;
 import com.br.ng.forum.models.User;
-import com.br.ng.forum.services.PostService;
+import com.br.ng.forum.services.TopicService;
 import com.br.ng.forum.services.UserService;
 
 import org.modelmapper.ModelMapper;
@@ -37,7 +37,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private PostService postService;
+    private TopicService postService;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ModelAndView save(@Valid UserRequestDTO userRequestDTO, BindingResult result, RedirectAttributes attributes){
@@ -66,7 +66,7 @@ public class UserController {
     public ModelAndView home(@RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "5") Integer size) {
         
         ModelAndView mv = new ModelAndView();
-        Page<Post> posts = postService.search(page, size);
+        Page<Topic> posts = postService.search(page, size);
         List<PostResponseDTO> postsDTO = posts.getContent().stream()
             .map(post -> modelMapper.map(post, PostResponseDTO.class))
             .collect(Collectors.toList());

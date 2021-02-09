@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
 import lombok.EqualsAndHashCode;
@@ -23,7 +22,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 @EqualsAndHashCode
-public class DomainEntity implements Serializable{
+public abstract class DomainEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
@@ -33,7 +32,6 @@ public class DomainEntity implements Serializable{
     protected UUID id;
     protected OffsetDateTime createdAt;
     protected OffsetDateTime updatedAt;
-    protected OffsetDateTime deletedAt;
 
     @PrePersist
     protected void prePersist(){
@@ -43,11 +41,6 @@ public class DomainEntity implements Serializable{
     @PreUpdate
     protected void preUpdate(){
         setUpdatedAt(OffsetDateTime.now());
-    }
-
-    @PreRemove
-    protected void preRemove(){
-        setDeletedAt(OffsetDateTime.now());
     }
 
 }

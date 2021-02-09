@@ -5,9 +5,11 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
-import com.br.ng.forum.models.Post;
+import com.br.ng.forum.models.Answer;
+import com.br.ng.forum.models.Topic;
 import com.br.ng.forum.models.User;
-import com.br.ng.forum.repositories.PostRepository;
+import com.br.ng.forum.repositories.AnswerRepository;
+import com.br.ng.forum.repositories.TopicRepository;
 import com.br.ng.forum.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,100 +26,33 @@ public class DBService {
     private UserRepository userRepository;
 
     @Autowired
-    private PostRepository postRepository;
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     public void instantiateTestDatabase() throws ParseException {
-        User user1 = new User("User 1","user1@mail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), null);
-        user1.setCreatedAt(OffsetDateTime.now());
+        User user1 = new User("user1@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList());
+        user1.setName("User 1");
 
-        User user2 = new User("User 2","user2@mail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), null);
-        user2.setCreatedAt(OffsetDateTime.now());
-
-        User user3 = new User("User 3","user3@mail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), null);
-        user3.setCreatedAt(OffsetDateTime.now());
+        User user2 = new User("user2@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList());
+        user2.setName("User 2");
 
         userRepository.saveAll(
             Arrays.asList(
                 user1,
-                user2,
-                user3
+                user2
             )
         );
 
-        Post post1 = new Post("Programação para iniciantes", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user1, null, Collections.emptyList());
-        post1.setCreatedAt(OffsetDateTime.now());
-        
-        Post post2 = new Post("Discussão para saber qual a melhor linguagem de programação.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user2, null, Collections.emptyList());
-        post2.setCreatedAt(OffsetDateTime.now());
-        
-        Post post3 = new Post("Microservices vs Monolitos", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, null, Collections.emptyList());
-        post3.setCreatedAt(OffsetDateTime.now());
+        Topic topic1 = new Topic("enqewj kjqnwekj rnqwe rq", 0L, 1L, user1, Collections.emptyList());
+        topic1.setName("Tópico 1");
 
-        Post post4 = new Post("Programação para iniciantes", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user1, null, Collections.emptyList());
-        post4.setCreatedAt(OffsetDateTime.now());
-        
-        Post post5 = new Post("Discussão para saber qual a melhor linguagem de programação.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user2, null, Collections.emptyList());
-        post5.setCreatedAt(OffsetDateTime.now());
-        
-        Post post6 = new Post("Microservices vs Monolitos", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, null, Collections.emptyList());
-        post6.setCreatedAt(OffsetDateTime.now());
+        topicRepository.save(topic1);
 
+        Answer answer1 = new Answer("qnwekjrnqwer", 0L, user2, topic1, null, Collections.emptyList());
 
-        postRepository.saveAll(
-            Arrays.asList(
-                post1,
-                post2,
-                post3,
-                post4,
-                post5,
-                post6
-            )
-        );
-
-        Post reply1 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user1, post2, Collections.emptyList());
-        reply1.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply2 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user1, post5, Collections.emptyList());
-        reply2.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply3 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user2, post1, Collections.emptyList());
-        reply3.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply4 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user2, post3, Collections.emptyList());
-        reply4.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply5 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post1, Collections.emptyList());
-        reply5.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply6 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post4, Collections.emptyList());
-        reply6.setCreatedAt(OffsetDateTime.now());
-
-        Post reply7 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post6, Collections.emptyList());
-        reply7.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply8 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post1, Collections.emptyList());
-        reply8.setCreatedAt(OffsetDateTime.now());
-
-        Post reply9 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post5, Collections.emptyList());
-        reply9.setCreatedAt(OffsetDateTime.now());
-        
-        Post reply10 = new Post(null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor magna massa, quis consequat orci facilisis nec. Curabitur egestas, velit ut molestie tempor, tellus est euismod leo, vel laoreet justo.", user3, post1, Collections.emptyList());
-        reply10.setCreatedAt(OffsetDateTime.now());
-
-        postRepository.saveAll(
-            Arrays.asList(
-                reply1,
-                reply2,
-                reply3,
-                reply4,
-                reply5,
-                reply6,
-                reply7,
-                reply8,
-                reply9,
-                reply10
-            )
-        );
+        answerRepository.save(answer1);
 
         
     }

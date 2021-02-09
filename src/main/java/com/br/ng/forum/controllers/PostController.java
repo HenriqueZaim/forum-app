@@ -8,8 +8,8 @@ import javax.validation.Valid;
 import com.br.ng.forum.DTOs.post.request.PostAnswerRequestDTO;
 import com.br.ng.forum.DTOs.post.request.PostRequestDTO;
 import com.br.ng.forum.DTOs.post.response.PostResponseDTO;
-import com.br.ng.forum.models.Post;
-import com.br.ng.forum.services.PostService;
+import com.br.ng.forum.models.Topic;
+import com.br.ng.forum.services.TopicService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class PostController {
     private ModelMapper modelMapper;
 
     @Autowired
-    private PostService postService;
+    private TopicService postService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/posts/new", method = RequestMethod.GET)
@@ -48,7 +48,7 @@ public class PostController {
     }
 
     @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
-    public ModelAndView findPost(@PathVariable("id") Post post){
+    public ModelAndView findPost(@PathVariable("id") Topic post){
         PostResponseDTO postDTO = modelMapper.map(post, PostResponseDTO.class);
         ModelAndView mv = new ModelAndView("post/list");
         PostAnswerRequestDTO postAnswerRequestDTO = new PostAnswerRequestDTO();
@@ -67,25 +67,25 @@ public class PostController {
             return mv;
 		}
 
-        Post post = modelMapper.map(postRequestDTO, Post.class);
+        Topic post = modelMapper.map(postRequestDTO, Topic.class);
         postService.update(post);
         
         return mv;
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(path = "/posts/{id}/newanswher", method = RequestMethod.POST)
-    public ModelAndView addAnswer(@Valid PostAnswerRequestDTO postAnswerRequestDTO, @PathVariable UUID id, BindingResult result){
-        ModelAndView mv = new ModelAndView("redirect:/posts/"+id);
-        if (result.hasErrors()) {
-            mv.addObject("erros", "Erros no formulário");
-            return mv;
-		}
-        Post post = modelMapper.map(postAnswerRequestDTO, Post.class);
-        postService.save(post, id);
+    // @PreAuthorize("isAuthenticated()")
+    // @RequestMapping(path = "/posts/{id}/newanswher", method = RequestMethod.POST)
+    // public ModelAndView addAnswer(@Valid PostAnswerRequestDTO postAnswerRequestDTO, @PathVariable UUID id, BindingResult result){
+    //     ModelAndView mv = new ModelAndView("redirect:/posts/"+id);
+    //     if (result.hasErrors()) {
+    //         mv.addObject("erros", "Erros no formulário");
+    //         return mv;
+	// 	}
+    //     Topic post = modelMapper.map(postAnswerRequestDTO, Topic.class);
+    //     postService.save(post, id);
         
-        return mv;
-    }
+    //     return mv;
+    // }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/posts/save", method = RequestMethod.POST)
@@ -95,7 +95,7 @@ public class PostController {
             mv.addObject("erros", "Erros no formulário");
             return mv;
 		}
-        Post post = modelMapper.map(postRequestDTO, Post.class);
+        Topic post = modelMapper.map(postRequestDTO, Topic.class);
         postService.save(post);
         
         return mv;
