@@ -1,16 +1,13 @@
 package com.br.ng.forum.services;
 
-import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
 import com.br.ng.forum.config.security.LoginService;
 import com.br.ng.forum.models.User;
 import com.br.ng.forum.repositories.UserRepository;
+import com.br.ng.forum.services.storage.ImageStorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,7 +26,7 @@ public class UserService {
     private LoginService loginService;
 
     @Autowired
-    private AmazonS3 s3Client;
+    private ImageStorage imageStorage;
 
     public User save(User user){
         user.setCreatedAt(OffsetDateTime.now());
@@ -39,17 +36,8 @@ public class UserService {
 
     public void addImage(Long id, MultipartFile image){
         User user = findById(id);
-        user.setImage(image.getOriginalFilename());
+        user.setImage(imageStorage.save(image));
         userRepository.save(user);
-
-        try {
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(image.getContentType());
-            metadata.setContentLength(image.getSize());
-            s3Client.putObject("forum-ng", image.getOriginalFilename(), image.getInputStream(), metadata);
-        } catch (AmazonClientException | IOException e) {
-            throw new RuntimeException("Erro salvar arquivo s3");
-        }
     }
 
     public User findById(Long id){

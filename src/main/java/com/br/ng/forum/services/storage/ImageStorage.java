@@ -5,5 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ImageStorage {
     
     public String save(MultipartFile image);
-    public String getUrl(String url);
+    public String getUrl(String name);
 }

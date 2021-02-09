@@ -27,12 +27,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     private static final String[] PUBLIC_MATCHERS_GET = {
         "/register",
-        "/posts/**"
-        
+        "/posts/**",
+        "/images/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
         "/register",
+        "/images/users/**",
+        "/images/**"
     };
 
     @Override

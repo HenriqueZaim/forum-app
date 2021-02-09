@@ -14,7 +14,6 @@ public class ImageStorageS3 implements ImageStorage {
         return null;
     }
 
-    @Override
     public String getUrl(String url) {
         // TODO Auto-generated method stub
         return null;
