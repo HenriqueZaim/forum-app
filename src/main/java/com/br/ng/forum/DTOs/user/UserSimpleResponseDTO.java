@@ -13,6 +13,7 @@ public class UserSimpleResponseDTO {
     private UUID id;
     private String email;
     private String name;
+    private String image;
     
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;

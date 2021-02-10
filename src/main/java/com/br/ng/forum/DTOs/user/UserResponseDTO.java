@@ -20,6 +20,7 @@ public class UserResponseDTO implements Serializable{
     private UUID id;
     private String email;
     private String name;
+    private String image;
     
     private List<TopicResponseDTO> topics;
     private List<Answer> answers;

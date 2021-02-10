@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-@Profile("test")
+@Profile("prod")
 @Component
 public class ImageStorageLocal implements ImageStorage, ImageReader {
 

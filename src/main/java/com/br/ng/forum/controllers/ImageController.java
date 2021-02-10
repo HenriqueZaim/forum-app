@@ -1,6 +1,8 @@
 package com.br.ng.forum.controllers;
 
 
+import java.util.UUID;
+
 import com.br.ng.forum.services.UserService;
 import com.br.ng.forum.services.storage.ImageReader;
 import com.devskiller.friendly_id.FriendlyId;
@@ -25,10 +27,10 @@ public class ImageController {
     @Autowired(required = false)
     private ImageReader imageReader;  
 
-    @PostMapping("/users/{id}")
+    @PostMapping("/users")
     @ResponseBody
-    public String uploadUserImage(@PathVariable String id, @RequestParam("files[]") MultipartFile[] files){
-        userService.addImage(FriendlyId.toUuid(id), files[0]);
+    public String uploadUserImage(@RequestParam("id") UUID id, @RequestParam("files[]") MultipartFile[] files){
+        userService.addImage(id, files[0]);
         return files[0].getOriginalFilename();
     }
 

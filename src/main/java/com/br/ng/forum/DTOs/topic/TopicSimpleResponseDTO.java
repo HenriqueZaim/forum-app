@@ -15,6 +15,7 @@ public class TopicSimpleResponseDTO {
     private UUID id;
     private String title;
     private String text;
+    private String image;
     private Long upvotes;
     private Long visualizations;
     private UserSimpleResponseDTO user;

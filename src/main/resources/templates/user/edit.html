@@ -51,7 +51,7 @@
                       </nav>
                     <h1 class="display-4">Olá, <th:block th:text="${#strings.substringBefore(#authentication.getPrincipal().getName(),' ')}"></th:block>!</h1>
                     <p class="lead text-muted mb-0">Montamos um perfil simples para você</p>
-                    <small class="text-muted">Logado com <th:block th:text="${#authentication.getPrincipal().getUsername()}"></th:block></small>
+                    <small class="text-muted">Logado com <th:block th:text="${#authentication.getPrincipal().getUsername()}"></th:block> - <th:block th:text="${#authentication.getPrincipal().getId()}"></th:block></small>
                 </div>
             </div>
             <hr>

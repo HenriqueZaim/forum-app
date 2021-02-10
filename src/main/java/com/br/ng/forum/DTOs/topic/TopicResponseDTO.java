@@ -22,6 +22,7 @@ public class TopicResponseDTO implements Serializable{
     private String text;
     private Long upvotes;
     private Long visualizations;
+    private String image;
     private UserSimpleResponseDTO user;
     private List<AnswerResponseDTO> answers;
 
