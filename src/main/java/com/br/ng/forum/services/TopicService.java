@@ -48,12 +48,12 @@ public class TopicService {
 
     public Page<Topic> search(Integer page, Integer linesPerPage){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.by(Sort.Direction.DESC,"createdAt"));
-        Page<Topic> list = postRepository.findByDeletedAtNull(pageRequest);
+        Page<Topic> list = postRepository.findAll(pageRequest);
         return list;
     }
 
     public List<Topic> findByUserId(){
-        return postRepository.findByDeletedAtNullAndUserId(loginService.authenticated().getId());
+        return postRepository.findByUserId(loginService.authenticated().getId());
     }
 
 }

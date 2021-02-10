@@ -16,13 +16,15 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Topic extends NamedEntity{
+public class Topic extends DomainEntity{
 
     private static final long serialVersionUID = 1L;
 
+    private String title;
     private String text;
     private Long upvotes;
     private Long visualizations;
+    private String image;
 
     @ManyToOne
     private User user;

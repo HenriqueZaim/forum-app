@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface TopicRepository extends PagingAndSortingRepository<Topic, UUID>{
 
     @Transactional
-    List<Topic> findByDeletedAtNullAndUserId(UUID id);
+    List<Topic> findByUserId(UUID id);
 
-    Page<Topic> findByDeletedAtNull(Pageable pageRequest);
+    Page<Topic> findAll(Pageable pageRequest);
 }

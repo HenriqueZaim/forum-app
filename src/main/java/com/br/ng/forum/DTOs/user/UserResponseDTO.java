@@ -1,11 +1,12 @@
-package com.br.ng.forum.DTOs.user.response;
+package com.br.ng.forum.DTOs.user;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.br.ng.forum.DTOs.post.response.PostResponseDTO;
+import com.br.ng.forum.DTOs.topic.TopicResponseDTO;
+import com.br.ng.forum.models.Answer;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,11 @@ public class UserResponseDTO implements Serializable{
     private String email;
     private String name;
     
-    private List<PostResponseDTO> posts;
+    private List<TopicResponseDTO> topics;
+    private List<Answer> answers;
 
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private OffsetDateTime deletedAt;
+
 }

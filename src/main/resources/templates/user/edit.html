@@ -57,7 +57,7 @@
             <hr>
             <div class="row mb-4">
                 <div class="col-lg-8 order-lg-0 order-1 my-2">
-                    <th:block th:each="post : ${posts}">
+                    <th:block th:each="post : ${user.topics}">
                         <th:block th:if="${post.title != null}">
                             <div class="card shadow-sm mb-2">
                                 <div class="card-body">
@@ -125,7 +125,7 @@
                         <a href="#" class="list-group-item list-group-item-action active flex-column align-items-start ">
                             <h5 class="mb-1">Suas respostas</h5>
                         </a>
-                        <th:block th:each="post : ${posts}">
+                        <th:block th:each="post : ${user.answers}">
                             <th:block th:if="${post.parentPost != null}">
                                 <a th:href="@{/posts/{id}(id=${post.parentPost.id})}" class="list-group-item list-group-item-action flex-column align-items-start ">
                                     
