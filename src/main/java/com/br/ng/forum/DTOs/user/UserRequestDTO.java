@@ -1,4 +1,4 @@
-package com.br.ng.forum.DTOs.user.request;
+package com.br.ng.forum.DTOs.user;
 
 import java.io.Serializable;
 

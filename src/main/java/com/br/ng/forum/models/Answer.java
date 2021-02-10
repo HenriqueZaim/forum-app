@@ -13,24 +13,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class Post extends DomainEntity{
+@AllArgsConstructor
+public class Answer extends DomainEntity {
 
     private static final long serialVersionUID = 1L;
 
-    private String title;
     private String text;
+    private Long upvotes;
 
     @ManyToOne
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "parent_post_id", nullable = true)
-    private Post parentPost;
+    private Topic topic;
+    
+    @ManyToOne
+    @JoinColumn(name = "parent_answer_id", nullable = true)
+    private Answer parentAnswer;
 
-    @OneToMany(mappedBy = "parentPost")
-    private List<Post> answers;
+    @OneToMany(mappedBy = "parentAnswer")
+    private List<Answer> answers;
+
 }

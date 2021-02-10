@@ -1,5 +1,6 @@
 package com.br.ng.forum.models;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ public class User extends DomainEntity{
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -32,9 +33,12 @@ public class User extends DomainEntity{
     private String role;
     
     @OneToMany(mappedBy = "user")
-    private List<Post> posts;
+    private List<Topic> topics;
+
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers;
 
     private String image;
 
-
+    private OffsetDateTime deletedAt;
 }
