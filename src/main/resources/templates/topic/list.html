@@ -53,59 +53,67 @@
                           <li class="breadcrumb-item active" aria-current="page">topic</li>
                         </ol>
                       </nav>
-                    <h1 class="display-4" th:text="${topic.title != null ? topic.title : 'Restopica '}">!</h1>
-                    <p class="lead text-muted">Criado por <th:block th:text="${topic.user.name}"></th:block>  </p>
+                    <h1 class="display-4" th:text="${topicVM.title}"></h1>
+                    <!-- <p class="lead text-muted">Criado por <th:block th:text="${topicVM.user.name}"></th:block>  </p> -->
                 </div>
             </div>
             <hr>
             <div class="row mb-4">
                 <div class="col-lg-12 order-lg-0 order-1 my-2">
                     <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">
-                        <p class="lead text-right text-black-50" >
+                        <!-- <p class="lead text-right text-black-50" >
                             <i class="fas fa-calendar-check mr-3" aria-hidden="true"></i>Criado em:
                             <th:block th:text="${#temporals.format(topic.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
-                        </p>
-                        <p class="lead" th:utext="${topic.text}"></p>
+                        </p> -->
+                        <p class="lead" th:utext="${topicVM.text}"></p>
                     </div>
                 </div>
                 <div class="col-lg-8 order-lg-0 order-1 my-2 mt-4">
                     <h2>Respostas</h2>
                     <hr>
-                    <!-- <th:block th:if="${#lists.size(topic.answers) > 0}">
-                        <th:block th:each="answer : ${topic.answers}">
+                    <th:block th:if="${#lists.size(answersVM) > 0}">
+                        <th:block th:each="answer : ${answersVM}">
                             <div class="card shadow-sm px-2 py-1 px-md-4 py-md-5 mt-3">
                                 <div class="d-flex justify-content-between text-black-50 align-items-center">
                                     <blockquote class="blockquote">
-                                        <footer class="blockquote-footer"> <cite title="Source Title" th:text="${answer.user.name}"></cite></footer>
+                                        <footer class="blockquote-footer"> <cite title="Source Title" th:text="${answer.userVM.name}"></cite></footer>
                                     </blockquote>
-                                    <p class="lead text-right small" >
+                                    <!-- <p class="lead text-right small" >
                                         Criado em:
                                         <th:block th:text="${#temporals.format(answer.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
-                                    </p>
+                                    </p> -->
                                 </div>
                                 <th:block th:utext="${answer.text}"></th:block>
                                 
                             </div>
                         </th:block>
-                    </th:block> -->
-                    <!-- <th:block sec:authorize="isAuthenticated()">
-                        <form th:action="@{/topics/{id}/newanswher(id=${topic.id})}" th:object="${answerRequestDTO}" method="topic">
+                    </th:block>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <form th:action="@{/topics/{friendlyHash}/answers/save(friendlyHash=${topicVM.friendlyHash})}" th:object="${answerVM}" method="POST">
                             <hr>
+                            <th:block th:if="${#fields.detailedErrors().size() > 0}">
+                                <th:block th:each="error : ${#fields.detailedErrors()}">
+                                    <div class="alert alert-danger" role="alert">
+                                        <p th:text="${error.message}"></p>
+                                    </div>
+                                </th:block>
+                            </th:block> 
                             <div class="form-group">
-                                <input type="hidden" name="userId" th:value="${#authentication.getPrincipal().getId() != null ? #authentication.getPrincipal().getId() : ''}">
+                                <input type="hidden" name="userFriendlyHash" th:value="${#authentication.getPrincipal().getFriendlyHash()}">
+                                <input type="hidden" name="topicFriendlyHash" th:value="${topicVM.friendlyHash}">
                                 <label for="editor1" class="sr-only">Resposta</label>
                                 <textarea id="editor1" th:field="*{text}" rows="2"></textarea>
                             </div>
                             <button type="submit" class="btn btn-sm btn-success float-right ">Responder</button>
                         </form>
-                    </th:block> -->
-                    <th:block sec:authorize="isAnonymous()">
+                    </th:block>
+                    <!-- <th:block sec:authorize="isAnonymous()">
                         <hr>
                         <textarea id="editor1"  rows="2"></textarea>
                         <a th:href="@{/login}" class="btn btn-sm btn-success float-right mt-3">Entre para responder</a>
                     </th:block>
                 </div>
-            </div>
+            </div> -->
             
         </div>
     </main>

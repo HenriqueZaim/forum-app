@@ -71,6 +71,6 @@ public class MyUserDetails implements UserDetails{
     }
 
     public String getFriendlyHash(){
-        return FriendlyId.toFriendlyId(this.hash);
+        return FriendlyId.toFriendlyId(hash);
     }
 }

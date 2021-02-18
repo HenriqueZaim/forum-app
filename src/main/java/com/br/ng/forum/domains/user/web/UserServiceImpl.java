@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
-import com.br.ng.forum.domains.question.topic.web.viewmodel.TopicVM;
 import com.br.ng.forum.domains.user.domain.User;
 import com.br.ng.forum.domains.user.persistence.UserPersistenceService;
 import com.br.ng.forum.domains.user.web.viewmodel.UserVM;

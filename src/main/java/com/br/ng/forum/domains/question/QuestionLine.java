@@ -14,9 +14,6 @@ import lombok.Setter;
 @Getter
 public class QuestionLine extends DomainEntity{
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     @Basic

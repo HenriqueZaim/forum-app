@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.br.ng.forum.config.exceptions.AuthorizationException;
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
 
 import org.springframework.core.annotation.AnnotationUtils;
@@ -60,6 +61,16 @@ public class GlobalExceptionHandler {
         mv.addObject("message", e.getMessage());
         mv.addObject("url", req.getRequestURL());
         mv.setViewName(ERROR_FOLDER+"/404");
+        return mv;
+    }
+
+    @ExceptionHandler(value = AuthorizationException.class)
+    public ModelAndView authorizationExceptionHandler(HttpServletRequest req, AuthorizationException e) throws Exception {
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("message", e.getMessage());
+        mv.addObject("url", req.getRequestURL());
+        mv.setViewName(ERROR_FOLDER+"/403");
         return mv;
     }
 

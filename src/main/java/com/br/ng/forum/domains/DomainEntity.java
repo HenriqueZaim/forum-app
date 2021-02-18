@@ -12,6 +12,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.devskiller.friendly_id.FriendlyId;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +47,10 @@ public abstract class DomainEntity implements Serializable{
     @PreUpdate
     protected void preUpdate(){
         setUpdatedAt(OffsetDateTime.now());
+    }
+
+    public String getFriendlyHash(){
+        return FriendlyId.toFriendlyId(this.hash);
     }
 
 }

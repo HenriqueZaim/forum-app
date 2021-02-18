@@ -4,70 +4,69 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
+import com.br.ng.forum.common.CRUDController;
+import com.br.ng.forum.common.CRUDControllerInitializer;
+import com.br.ng.forum.config.exceptions.AuthorizationException;
 import com.br.ng.forum.config.security.LoginService;
 import com.br.ng.forum.domains.question.topic.web.TopicService;
 import com.br.ng.forum.domains.question.topic.web.viewmodel.TopicVM;
+import com.br.ng.forum.domains.user.domain.User;
 import com.br.ng.forum.domains.user.web.viewmodel.UserVM;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class UserController {
+@RequestMapping(UserController.BASE_URL)
+public class UserController extends CRUDController<UserVM, User> {
 
-    @Autowired
-    private UserService userService;
+    public static final String BASE_PATH = "user";
+    public static final String BASE_URL = "/user";
 
-    @Autowired
-    private TopicService topicService;
+    private final UserService userService;
+    private final LoginService loginService;
+    private final TopicService topicService;
 
-    @Autowired
-    private LoginService loginService;
-
-    @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ModelAndView save(@Valid UserVM userVM, BindingResult result, RedirectAttributes attributes){
-        if (result.hasErrors()) {
-            return register(userVM);
-        }
-
-        userService.save(userVM);
-        attributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
-        return new ModelAndView("redirect:/login");
+    public UserController(UserService userService, LoginService loginService, TopicService topicService) {
+        super(CRUDControllerInitializer
+        .<UserVM, User>builder()
+            .basePath(BASE_PATH)
+            .baseURL(BASE_URL)
+            .CRUDApplicationService(userService)
+        .build());
+        this.userService = userService;
+        this.loginService = loginService;
+        this.topicService = topicService;
     }
 
-    @RequestMapping(path = "/profile", method = RequestMethod.GET)
-    public ModelAndView profile(){
+    @Override
+    public ModelAndView search(RedirectAttributes redirectAttributes, HttpSession session) {
         UUID userHash = loginService.authenticated().getHash();
 
         Optional<UserVM> userVM = userService.getEnabledForEditing(userHash);
         List<TopicVM> userTopicsVM = topicService.getAllAsList(userHash);
 
-        ModelAndView mv = new ModelAndView("user/edit");
+        ModelAndView mv = getSearchModelAndView();
         mv.addObject("userVM", userVM.get());
         mv.addObject("userTopicsVM", userTopicsVM);
 
         return mv;
     }
 
-    // update
-
-    // close account
-
-
-    @RequestMapping(path = "/register", method = RequestMethod.GET)
-    public ModelAndView register(UserVM userVM){
-        return new ModelAndView("register");
+    @Override
+    public ModelAndView edit(@PathVariable String friendlyHash, RedirectAttributes redirectAttributes, HttpSession session) {
+        if(friendlyHash.equals(loginService.authenticated().getFriendlyHash()))
+            return search(redirectAttributes, session);
+        else{
+            throw new AuthorizationException("Não autorizado");
+        }
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String login(){
-        return "login";
-    }
+
+
+
 }

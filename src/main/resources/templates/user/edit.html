@@ -1,157 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="fragments/header.html :: header"></th:block>
-    <title>Meu perfil | Fórum NG</title>
-    <style>
-        .add-topic-square{
-            color: #999999;
-            transition: all 150ms ease-in;
-        }
-        
-        .add-topic-square:hover, .add-topic-square:focus{
-            border-color: indigo;
-            color: indigo !important;
-            cursor: pointer;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | Fórum NG</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
-        .instant-reply{
-            border: 1px solid #f0f0f0;
-            border-radius: 50%;
-            transition: all 150ms ease-in;
-            background-color: #ffffff;
-        }
-
-        .instant-reply:hover, .instant-reply:focus{
-            border-color: #cccccc;
-            background-color: #f0f0f0;
-        }
-
-        .card{
-            border-top: 3px indigo solid;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-        }
-    </style>
 </head>
 <body>
-    <th:block th:include="fragments/navbar.html :: navbar"></th:block>
-
-    <main class="content">
-        <div class="container mt-5">
-            <div class="row ">
-                <div class="col">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent px-0 mb-0 pb-0">
-                          <li class="breadcrumb-item " aria-current="page">
-                            <a  aria-current="page" th:href="@{/}">Início</a>
-                          </li>
-                          <li class="breadcrumb-item active" aria-current="page">Meu perfil</li>
-                        </ol>
-                      </nav>
-                    <h1 class="display-4">Olá, <th:block th:text="${#strings.substringBefore(userVM.name,' ')}"></th:block>!</h1>
-                    <p class="lead text-muted mb-0">Montamos um perfil simples para você</p>
-                    <small class="text-muted">Logado com <th:block th:text="${userVM.email}"></th:block></small>
-                </div>
-            </div>
-            <hr>
-            <div class="row mb-4">
-                <div class="col-lg-8 order-lg-0 order-1 my-2">
-                    <th:block th:each="post : ${userTopicsVM}">
-                        <th:block th:if="${post.title != null}">
-                            <div class="card shadow-sm mb-2">
-                                <div class="card-body">
-                                    <div class="row justify-content-between ">
-                                        <div class="col">
-                                            <small class="text-muted ">Por: Você</small>
-                                        </div>
-                                        <!-- <div class="col text-right">
-                                            <small class="text-muted "><i class="fas fa-calendar mr-2" aria-hidden="true"></i>
-                                                <th:block th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
-                                            </small> 
-                                        </div>  -->
-                                    </div>
-                                    
-                                    <h2 class="h4 font-weight-bold text-truncate mt-2" th:text="${post.title}"></h2>
-                                    <p class="lead text-truncate" th:utext="${post.text}"></p>
-                                    
-                                    <div class="row justify-content-between align-items-center">
-                                        <!-- <div class="col text-left">
-                                            <small class="text-muted">Respostas: <th:block th:text="${#lists.size(post.answers)}"></th:block></small>
-                                        </div> -->
-                                        <div class="col text-right">
-                                            <a class="btn btn-default btn-sm" th:href="@{/topics/edit/{friendlyHash}(friendlyHash=${post.friendlyHash})}" role="button"><i class="fas fa-edit mr-2" aria-hidden="true"></i>Editar</a>
-                                            <a class="btn btn-primary btn-sm" th:href="@{/topics/{friendlyHash}(friendlyHash=${post.friendlyHash})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver post completo</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th:block>
-                    </th:block>
-                    <!-- <div class="row" th:if="${totalPages > 0}">
-                        <div class="col d-flex justify-content-end">
-                            <nav aria-label="Page navigation ">
-                                <ul class="pagination" >
-                                        
-                                    <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-                                        <a class="page-link"  th:href="@{/(page=${currentPage-1})}" tabindex="-1">Anterior</a>
-                                    </li>
-
-                                    <th:block th:each="pageNumber : ${pages}">
-                                        <li class="page-item" th:classappend="${pageNumber-1==currentPage} ? active">
-                                            <a class="page-link"  th:href="@{/(page=${pageNumber-1})}" th:text=${pageNumber}></a>
-                                        </li>
-                                    </th:block>
-
-                                    <li class="page-item" th:classappend="${currentPage+1 == totalPages} ? disabled">
-                                        <a class="page-link"  th:href="@{/(page=${currentPage+1})}" tabindex="-1">Próximo</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="col-lg-4 order-lg-1 order-0 my-2">
-                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5 add-topic-square">
-                        <a th:href="@{/topics/create}" class="text-decoration-none">
-                            <div class="card-body d-flex justify-content-center align-items-center flex-column ">
-                                <i class="fas fa-plus fa-2x "></i>
-                                <p class="mt-4 fa-lg">Adicionar novo post</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- <div class="list-group py-4">
-                        <a href="#" class="list-group-item list-group-item-action active flex-column align-items-start ">
-                            <h5 class="mb-1">Suas respostas</h5>
-                        </a>
-                        <th:block th:each="post : ${userVM.answers}">
-                            <th:block th:if="${post.parentPost != null}">
-                                <a th:href="@{/topics/{id}(id=${post.parentPost.id})}" class="list-group-item list-group-item-action flex-column align-items-start ">
-                                    
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <small class="text-truncate font-weight-bold" th:text="${post.parentPost.title != null ? post.parentPost.title : post.parentPost.text}"></small>
-                                    </div>
-                                    <h5 class="text-truncate mt-2">Você: <th:block  th:utext="${post.text}"></th:block>  </h5>
-
-                                    <small class="text-muted "><i class="fas fa-calendar mr-2" aria-hidden="true"></i>
-                                        <th:block th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
-                                    </small> 
-                                    <small class="text-muted float-right">
-                                        Ver completo
-                                    </small> 
-                                  </a>
-                            </th:block>
-                        </th:block>
-                    </div> -->
-                </div>
-            </div>
+    <div id="app">
+      <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+          <div>
+            <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Faça parte do fórum NG!
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+              Já possui uma conta?
+              <a th:href="@{/login}" class="font-medium text-yellow-500 hover:text-indigo-500">
+                Entre já!
+              </a>
+            </p>
+          </div>
+          <form class="mt-8 space-y-6" th:action="@{/register}" th:object="${viewModel}" method="post">
+            <th:block th:each="erro : ${#fields.detailedErrors()}">
+              <div class="relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
+                <p th:text="${erro.message}"></p>
+                <button type="button" @click="removeAlert($event)">
+                  <span class="absolute inset-y-0 right-0 flex items-center mr-4">
+                    <svg class="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                  </span>
+                </button>
+              </div>
+            </th:block>
             
+
+            <div class="rounded-md shadow-sm -space-y-px">
+              <div th:classappend="${#fields.hasErrors('name')} ? has-error">
+                  <label for="name" class="sr-only">Nome Completo</label>
+                  <input id="name" th:field="*{name}" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none rounded-b-md focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Nome Completo">
+              </div>
+              <div th:classappend="${#fields.hasErrors('email')} ? has-error">
+                <label for="email-address" class="sr-only">Endereço de E-mail</label>
+                <input id="email-address" th:field="*{email}" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md rounded-b-md my-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Endereço de E-mail">
+              </div>
+              <div th:classappend="${#fields.hasErrors('password')} ? has-error">
+                <label for="password" class="sr-only">Password</label>
+                <input id="password" th:field="*{password}" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Senha">
+              </div>
+            </div>
+      
+            <div>
+              <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <!-- Heroicon name: lock-closed -->
+                  <svg class="h-5 w-5 text-yellow-500 group-hover:text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                Cadastre-se
+              </button>
+            </div>
+          </form>
         </div>
-    </main>
+      </div>
+    </div>
 
-    <!-- <th:block th:include="fragments/footer.html :: footer"></th:block> -->
-
-    <th:block th:include="fragments/scripts.html :: scripts"></th:block>
+    <th:block th:include="fragments/footer.html :: footer"></th:block>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const app = Vue.createApp({
+        data(){
+          return {
+            count: 5
+          }
+        },
+        methods: {
+          removeAlert: function(e){
+            console.log(e)
+          }
+        },
+      }).mount("#app");
+    </script>
 </body>
-</html>
+</html> 

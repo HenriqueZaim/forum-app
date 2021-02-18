@@ -12,6 +12,9 @@ import com.br.ng.forum.domains.question.topic.web.viewmodel.TopicVM;
 import com.br.ng.forum.domains.user.persistence.UserPersistenceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,12 +48,13 @@ public class TopicServiceImpl implements TopicService {
     // ObjectNotFoundException("Tópico não encontrado"));
     // }
 
-    // public Page<Topic> search(Integer page, Integer linesPerPage) {
-    // PageRequest pageRequest = PageRequest.of(page, linesPerPage,
-    // Sort.by(Sort.Direction.DESC, "createdAt"));
-    // Page<Topic> list = topicRepository.findAll(pageRequest);
-    // return list;
-    // }
+    @Override
+    public Page<Topic> pageable(Integer page, Integer linesPerPage) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage,
+        Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Topic> list = topicPersistenceService.findAll(pageRequest);
+        return list;
+    }
 
     @Override
     @Transactional
