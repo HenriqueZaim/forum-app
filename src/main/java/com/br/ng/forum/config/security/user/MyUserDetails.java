@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.br.ng.forum.models.User;
+import com.br.ng.forum.domains.user.domain.User;
+import com.devskiller.friendly_id.FriendlyId;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,15 +25,17 @@ public class MyUserDetails implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
-    private UUID id;
+    private Long id;
     private String name;
     private String email;
     private String password;
     private boolean active;
+    private UUID hash;
     private List<GrantedAuthority> authorities;
 
     public MyUserDetails(User user) {
         this.id = user.getId();
+        this.hash = user.getHash();
         this.name = user.getName();
         this.email = user.getEmail();
         this.password = user.getPassword();
@@ -65,5 +68,9 @@ public class MyUserDetails implements UserDetails{
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    public String getFriendlyHash(){
+        return FriendlyId.toFriendlyId(this.hash);
     }
 }

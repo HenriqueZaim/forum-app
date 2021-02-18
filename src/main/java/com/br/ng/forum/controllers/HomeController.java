@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.br.ng.forum.DTOs.topic.TopicResponseDTO;
-import com.br.ng.forum.models.Topic;
-import com.br.ng.forum.services.TopicService;
+import com.br.ng.forum.domains.question.topic.domain.Topic;
+import com.br.ng.forum.domains.question.topic.web.TopicServiceImpl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -20,35 +18,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private TopicService topicService;
+    // @Autowired
+    // private TopicServiceImpl topicService;
     
-    @RequestMapping(value = "/" ,method = RequestMethod.GET)
-    public ModelAndView home(@RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "5") Integer size) {
+    // @RequestMapping(value = "/" ,method = RequestMethod.GET)
+    // public ModelAndView home(@RequestParam(value = "page", defaultValue = "0") Integer page, 
+    //                          @RequestParam(value = "size", defaultValue = "5") Integer size) {
         
-        ModelAndView mv = new ModelAndView();
-        Page<Topic> topics = topicService.search(page, size);
-        List<TopicResponseDTO> topicsDTO = topics.getContent().stream()
-            .map(topic -> modelMapper.map(topic, TopicResponseDTO.class))
-            .collect(Collectors.toList());
+    //     ModelAndView mv = new ModelAndView();
+    //     Page<Topic> topics = topicService.search(page, size);
+    //     List<TopicVM> topicsDTO = topics.getContent().stream()
+    //         .map(topic -> TopicVM.from(topic))
+    //         .collect(Collectors.toList());
 
-        int totalPages = topics.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
-                mv.addObject("pages", pageNumbers);
-        }
+    //     int totalPages = topics.getTotalPages();
+    //     if (totalPages > 0) {
+    //         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+    //             .boxed()
+    //             .collect(Collectors.toList());
+    //             mv.addObject("pages", pageNumbers);
+    //     }
 
-        mv.addObject("currentPage", topics.getNumber());
-        mv.addObject("totalPages", totalPages);
-        mv.addObject("topics",  topicsDTO);
-        mv.setViewName("home");
-        return mv;
-    }
+    //     mv.addObject("currentPage", topics.getNumber());
+    //     mv.addObject("totalPages", totalPages);
+    //     mv.addObject("topics",  topicsDTO);
+    //     mv.setViewName("home");
+    //     return mv;
+    // }
 
 
 }
