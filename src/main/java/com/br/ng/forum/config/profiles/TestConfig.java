@@ -2,7 +2,7 @@ package com.br.ng.forum.config.profiles;
 
 import java.text.ParseException;
 
-import com.br.ng.forum.services.DBService;
+import com.br.ng.forum.common.DBService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

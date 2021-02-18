@@ -22,7 +22,7 @@
               </a>
             </p>
           </div>
-          <form class="mt-8 space-y-6" th:action="@{/register}" th:object="${userRequestDTO}" method="post">
+          <form class="mt-8 space-y-6" th:action="@{/register}" th:object="${userVM}" method="post">
             <th:block th:each="erro : ${#fields.detailedErrors()}">
               <div class="relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
                 <p th:text="${erro.message}"></p>
