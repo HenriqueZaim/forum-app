@@ -51,10 +51,10 @@
                           <li class="breadcrumb-item ">
                             <a th:href="@{/}">Início</a>
                           </li>
-                          <li class="breadcrumb-item active" aria-current="page" th:text="${topicVM.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></li>
+                          <li class="breadcrumb-item active" aria-current="page" th:text="${viewModel.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></li>
                         </ol>
                       </nav>
-                     <h1 class="display-4" th:text="${topicVM.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></h1>
+                     <h1 class="display-4" th:text="${viewModel.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></h1>
                 </div>
             </div>
             <hr>
@@ -64,7 +64,7 @@
                     <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">
                         
 
-                        <form th:action="@{/topics/save}" th:object="${topicVM}" method="post">
+                        <form th:action="@{/topic/save}" th:object="${viewModel}" method="post">
                             <th:block th:if="${#fields.detailedErrors().size() > 0}">
                                 <th:block th:each="error : ${#fields.detailedErrors()}">
                                     <div class="alert alert-danger" role="alert">
@@ -73,7 +73,7 @@
                                 </th:block>
                             </th:block> 
 
-                            <input type="hidden" name="friendlyHash" th:value="${topicVM.friendlyHash}">
+                            <input type="hidden" name="friendlyHash" th:value="${viewModel.friendlyHash}">
                             <input type="hidden" name="userFriendlyHash" th:value="${#authentication.getPrincipal().getFriendlyHash()}">
                             <div class="form-group">
                                 <label for="title">Título</label>
@@ -83,7 +83,7 @@
                                 <label for="editor1" class="sr-only">Texto</label>
                                 <textarea id="editor1" th:field="*{text}" rows="2"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-success float-right " th:text="${topicVM.friendlyHash == null ? 'Adicionar' : 'Atualizar'}"></button>
+                            <button type="submit" class="btn btn-sm btn-success float-right " th:text="${viewModel.friendlyHash == null ? 'Adicionar' : 'Atualizar'}"></button>
                         </form>
 
                     </div>

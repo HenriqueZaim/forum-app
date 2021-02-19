@@ -53,8 +53,8 @@
                           <li class="breadcrumb-item active" aria-current="page">topic</li>
                         </ol>
                       </nav>
-                    <h1 class="display-4" th:text="${topicVM.title}"></h1>
-                    <!-- <p class="lead text-muted">Criado por <th:block th:text="${topicVM.user.name}"></th:block>  </p> -->
+                    <h1 class="display-4" th:text="${viewModel.title}"></h1>
+                    <!-- <p class="lead text-muted">Criado por <th:block th:text="${viewModel.user.name}"></th:block>  </p> -->
                 </div>
             </div>
             <hr>
@@ -65,7 +65,7 @@
                             <i class="fas fa-calendar-check mr-3" aria-hidden="true"></i>Criado em:
                             <th:block th:text="${#temporals.format(topic.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
                         </p> -->
-                        <p class="lead" th:utext="${topicVM.text}"></p>
+                        <p class="lead" th:utext="${viewModel.text}"></p>
                     </div>
                 </div>
                 <div class="col-lg-8 order-lg-0 order-1 my-2 mt-4">
@@ -88,8 +88,8 @@
                             </div>
                         </th:block>
                     </th:block>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <form th:action="@{/topics/{friendlyHash}/answers/save(friendlyHash=${topicVM.friendlyHash})}" th:object="${answerVM}" method="POST">
+                    <!-- <th:block sec:authorize="isAuthenticated()">
+                        <form th:action="@{/topics/{friendlyHash}/answers/save(friendlyHash=${viewModel.friendlyHash})}" th:object="${answerVM}" method="POST">
                             <hr>
                             <th:block th:if="${#fields.detailedErrors().size() > 0}">
                                 <th:block th:each="error : ${#fields.detailedErrors()}">
@@ -100,13 +100,13 @@
                             </th:block> 
                             <div class="form-group">
                                 <input type="hidden" name="userFriendlyHash" th:value="${#authentication.getPrincipal().getFriendlyHash()}">
-                                <input type="hidden" name="topicFriendlyHash" th:value="${topicVM.friendlyHash}">
+                                <input type="hidden" name="topicFriendlyHash" th:value="${viewModel.friendlyHash}">
                                 <label for="editor1" class="sr-only">Resposta</label>
                                 <textarea id="editor1" th:field="*{text}" rows="2"></textarea>
                             </div>
                             <button type="submit" class="btn btn-sm btn-success float-right ">Responder</button>
                         </form>
-                    </th:block>
+                    </th:block> -->
                     <!-- <th:block sec:authorize="isAnonymous()">
                         <hr>
                         <textarea id="editor1"  rows="2"></textarea>
