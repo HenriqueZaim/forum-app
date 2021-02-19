@@ -23,6 +23,7 @@ public class TopicVM extends CRUDViewModel{
 
     @NotBlank(message = "Campo Texto não pode ser vazio")
     private String text;
+    private String userName;
 
     private Long upvotes = 0L;
     private Long visualizations = 0L; 
@@ -52,7 +53,12 @@ public class TopicVM extends CRUDViewModel{
         topicVM.setUpvotes(topic.getUpvotes());
         topicVM.setVisualizations(topic.getVisualizations());
 
+        topicVM.setCreatedAt(topic.getCreatedAt());
+        topicVM.setUpdatedAt(topic.getUpdatedAt());
+        topicVM.setDeletedAt(topic.getDeletedAt());
+
         if(null != topic.getUser()){
+            topicVM.setUserName(topic.getUser().getName());
             topicVM.setUserFriendlyHash(FriendlyId.toFriendlyId(topic.getUser().getHash()));
         }
 

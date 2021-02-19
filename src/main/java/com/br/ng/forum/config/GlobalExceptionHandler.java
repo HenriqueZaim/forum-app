@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.br.ng.forum.config.exceptions.AuthorizationException;
+import com.br.ng.forum.config.exceptions.BadRequestException;
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
 
 import org.springframework.core.annotation.AnnotationUtils;
@@ -71,6 +72,16 @@ public class GlobalExceptionHandler {
         mv.addObject("message", e.getMessage());
         mv.addObject("url", req.getRequestURL());
         mv.setViewName(ERROR_FOLDER+"/403");
+        return mv;
+    }
+
+    @ExceptionHandler(value = BadRequestException.class)
+    public ModelAndView badRequestExceptionHandler(HttpServletRequest req, BadRequestException e) throws Exception {
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("message", e.getMessage());
+        mv.addObject("url", req.getRequestURL());
+        mv.setViewName(ERROR_FOLDER+"/400");
         return mv;
     }
 

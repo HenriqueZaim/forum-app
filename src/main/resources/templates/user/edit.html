@@ -7,7 +7,7 @@
 
 </head>
 <body>
-    <div id="app">
+    <div >
       <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
           <div>
@@ -67,20 +67,6 @@
     </div>
 
     <th:block th:include="fragments/footer.html :: footer"></th:block>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script>
-      const app = Vue.createApp({
-        data(){
-          return {
-            count: 5
-          }
-        },
-        methods: {
-          removeAlert: function(e){
-            console.log(e)
-          }
-        },
-      }).mount("#app");
-    </script>
+
 </body>
 </html> 

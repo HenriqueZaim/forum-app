@@ -1,5 +1,6 @@
 package com.br.ng.forum.domains.question.topic.web;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,27 +27,6 @@ public class TopicServiceImpl implements TopicService {
 
     @Autowired
     private UserPersistenceService userPersistenceService;
-
-    // public Topic save(Topic topic){
-    // User user = new User();
-    // user.setId(loginService.authenticated().getId());
-    // topic.setUser(user);
-    // topic.setCreatedAt(OffsetDateTime.now());
-    // return topicRepository.save(topic);
-    // }
-
-    // public Topic update(Topic topic){
-    // topic.setCreatedAt(findById(topic.getId()).getCreatedAt());
-    // User user = new User();
-    // user.setId(loginService.authenticated().getId());
-    // topic.setUser(user);
-    // return topicRepository.save(topic);
-    // }
-
-    // public Topic findById(UUID id){
-    // return topicRepository.findById(id).orElseThrow(() -> new
-    // ObjectNotFoundException("Tópico não encontrado"));
-    // }
 
     @Override
     public Page<Topic> pageable(Integer page, Integer linesPerPage) {
@@ -87,8 +67,15 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void removeLogicallyByHash(UUID hash) {
-        // TODO Auto-generated method stub
+        Optional<Topic> optionalTopic = this.topicPersistenceService.findByDeletedAtNullAndHash(hash, Topic.class);
 
+        if(!optionalTopic.isPresent()){
+            throw new ObjectNotFoundException("Tópico não encontrado");
+        }
+
+        Topic topic = optionalTopic.get();
+        topic.setDeletedAt(OffsetDateTime.now());
+        this.topicPersistenceService.save(topic);
     }
 
     @Override

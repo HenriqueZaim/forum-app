@@ -1,6 +1,5 @@
 package com.br.ng.forum.domains.user.domain;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -49,7 +48,5 @@ public class User extends DomainEntity{
     private List<Answer> answers;
 
     private String image;
-
-    private OffsetDateTime deletedAt;
 
 }

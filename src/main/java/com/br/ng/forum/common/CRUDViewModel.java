@@ -1,5 +1,6 @@
 package com.br.ng.forum.common;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import com.devskiller.friendly_id.FriendlyId;
@@ -14,6 +15,9 @@ public abstract class CRUDViewModel {
     // ***********************************************************************
 
     protected String friendlyHash;
+	protected OffsetDateTime createdAt;
+    protected OffsetDateTime updatedAt;
+    protected OffsetDateTime deletedAt;
 
 	// ***********************************************************************
 

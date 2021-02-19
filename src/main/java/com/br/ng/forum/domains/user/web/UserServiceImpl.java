@@ -1,5 +1,6 @@
 package com.br.ng.forum.domains.user.web;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,29 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserPersistenceService persistenceService;
+    private UserPersistenceService userPersistenceService;
 
     @Autowired
     private BCryptPasswordEncoder bCrypt;
-
-    // @Autowired
-    // private ImageStorage imageStorage;
-
-    // public User save(User user) {
-    // user.setPassword(bCrypt.encode(user.getPassword().trim()));
-    // return userRepository.save(user);
-    // }
 
     // public void addImage(Long id, MultipartFile image) {
     // User user = findById(id);
     // user.setImage(imageStorage.save(image));
     // userRepository.save(user);
-    // }
-
-    // public User findById(Long id) {
-    // Optional<User> user = userRepository.findById(id);
-    // return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não
-    // encontrado"));
     // }
 
     @Override
@@ -49,21 +36,22 @@ public class UserServiceImpl implements UserService {
         User user = new User();
 
         if (vm.isUpdate()) {
-            Optional<User> optionalUser = this.persistenceService.findByDeletedAtNullAndHash(vm.getHash());
+            Optional<User> optionalUser = this.userPersistenceService.findByDeletedAtNullAndHash(vm.getHash());
             if (optionalUser.isPresent())
                 user = optionalUser.get();
+            else 
+                throw new ObjectNotFoundException("Usuário não encontrado");
         }
 
         vm.fill(user, bCrypt);
-
-        this.persistenceService.save(user);
+        this.userPersistenceService.save(user);
 
         return user;
     }
 
     @Override
     public Optional<UserVM> getEnabledForEditing(UUID hash) {
-        Optional<User> user = this.persistenceService.findByHash(hash, User.class);
+        Optional<User> user = this.userPersistenceService.findByDeletedAtNullAndHash(hash, User.class);
         if(!user.isPresent()){
             throw new ObjectNotFoundException("Usuário não encontrado");
         }
@@ -73,8 +61,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeLogicallyByHash(UUID hash) {
-        // TODO Auto-generated method stub
+        Optional<User> optionalUser = this.userPersistenceService.findByDeletedAtNullAndHash(hash, User.class);
 
+        if(!optionalUser.isPresent()){
+            throw new ObjectNotFoundException("Usuário não encontrado");
+        }
+
+        User user = optionalUser.get();
+        user.setDeletedAt(OffsetDateTime.now());
+        this.userPersistenceService.save(user);
     }
 
     @Override

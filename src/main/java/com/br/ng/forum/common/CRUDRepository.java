@@ -8,4 +8,5 @@ import com.br.ng.forum.domains.DomainEntity;
 public interface CRUDRepository<E extends DomainEntity> {
     
     <T> Optional<T> findByHash(UUID hash, Class<T> type);
+    <T> Optional<T> findByDeletedAtNullAndHash(UUID hash, Class<T> type);
 }

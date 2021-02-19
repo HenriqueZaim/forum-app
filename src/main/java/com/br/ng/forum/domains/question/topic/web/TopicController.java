@@ -46,7 +46,7 @@ public class TopicController extends CRUDController<TopicVM, Topic>{
     @Override
     public ModelAndView search(RedirectAttributes redirectAttributes, HttpSession session) {
         if(null != loginService.authenticated()){
-            return new ModelAndView("redirect:/user/");
+            return new ModelAndView("redirect:/user");
         }
 
         return new ModelAndView("redirect:/");

@@ -31,10 +31,10 @@ public class DBService {
     private AnswerRepository answerRepository;
 
     public void instantiateTestDatabase() throws ParseException {
-        User user1 = new User("User 1","user1@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList(), null, null);
+        User user1 = new User("User 1","user1@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList(), null);
         user1.setName("User 1");
 
-        User user2 = new User("User 2","user2@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList(), null, null);
+        User user2 = new User("User 2","user2@gmail.com", bCrypt.encode("qwer1234"), "USER", Collections.emptyList(), Collections.emptyList(), null);
         user2.setName("User 2");
 
         userRepository.saveAll(

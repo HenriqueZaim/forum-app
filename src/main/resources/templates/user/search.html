@@ -80,7 +80,15 @@
                                             <small class="text-muted">Respostas: <th:block th:text="${#lists.size(post.answers)}"></th:block></small>
                                         </div> -->
                                         <div class="col text-right">
-                                            <a class="btn btn-default btn-sm" th:href="@{/topics/edit/{friendlyHash}(friendlyHash=${post.friendlyHash})}" role="button"><i class="fas fa-edit mr-2" aria-hidden="true"></i>Editar</a>
+                                            <th:block th:if="${post.deletedAt == null}">
+                                                <a class="btn btn-default btn-sm" th:href="@{/topics/edit/{friendlyHash}(friendlyHash=${post.friendlyHash})}" role="button"><i class="fas fa-edit mr-2" aria-hidden="true"></i>Editar</a>
+                                            
+                                            <form th:action="@{topic/delete}" method="post">
+                                                <input type="hidden" name="friendlyHash" th:value="${post.friendlyHash}">
+                                                <button type="submit" class="btn btn-link btn-danger p-0">Excluir</button>
+                                            </form>
+                                        </th:block>
+                                            
                                             <a class="btn btn-primary btn-sm" th:href="@{/topics/{friendlyHash}(friendlyHash=${post.friendlyHash})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver post completo</a>
                                         </div>
                                     </div>

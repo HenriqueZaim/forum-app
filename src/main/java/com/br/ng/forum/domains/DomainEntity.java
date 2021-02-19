@@ -32,6 +32,7 @@ public abstract class DomainEntity implements Serializable{
     protected Long id;
     protected OffsetDateTime createdAt;
     protected OffsetDateTime updatedAt;
+    protected OffsetDateTime deletedAt;
 
     protected UUID hash;
 

@@ -1,12 +1,14 @@
-<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="fragments/layout-tailwind.html">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entre | Fórum NG</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
 </head>
 <body>
+  <div layout:fragment="content" class="content">
     <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
           <div>
@@ -51,7 +53,6 @@
           </form>
         </div>
     </div>
-
-    <th:block th:include="fragments/footer.html :: footer"></th:block>
+  </div>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+    <html lang="pt" 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        >
+    <head>
+        <th:block th:include="fragments/frag-header.html :: default"></th:block>
+        <th:block th:include="fragments/frag-header.html :: bootstrap"></th:block>
+        <title>NG fórum</title>
+
+    </head>
+
+    <body>
+        <th:block th:include="fragments/frag-navbar.html :: navbar"></th:block>
+
+        <main id="app">
+            <div layout:fragment="content">
+
+            </div>
+        </main>
+        
+        <th:block th:include="fragments/frag-footer.html :: footer"></th:block>
+
+        <th:block th:include="fragments/frag-scripts.html :: default"></th:block>
+        <th:block th:include="fragments/frag-scripts.html :: bootstrap"></th:block>
+    </body>
+    </html>
+    

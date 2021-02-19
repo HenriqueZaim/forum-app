@@ -1,43 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="fragments/layout-default.html">
 <head>
-    <th:block th:include="fragments/header.html :: header"></th:block>
-    <title>Home | Fórum NG</title>
-    <style>
-        .add-topic-square{
-            color: #999999;
-            transition: all 150ms ease-in;
-        }
-        
-        .add-topic-square:hover, .add-topic-square:focus{
-            border-color: indigo;
-            color: indigo !important;
-            cursor: pointer;
-        }
+    <title>Bem-vindo ao fórum NG</title>
 
-        .instant-reply{
-            border: 1px solid #f0f0f0;
-            border-radius: 50%;
-            transition: all 150ms ease-in;
-            background-color: #ffffff;
-        }
-
-        .instant-reply:hover, .instant-reply:focus{
-            border-color: #cccccc;
-            background-color: #f0f0f0;
-        }
-
-        .card{
-            border-top: 3px indigo solid;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-        }
-    </style>
 </head>
 <body>
-    <th:block th:include="fragments/navbar.html :: navbar"></th:block>
 
-    <main class="content">
+    <div layout:fragment="content" class="content">
         <div class="container mt-5">
             <div class="row ">
                 <div class="col">
@@ -75,7 +48,7 @@
                                         <small class="text-muted">Respostas: <th:block th:text="${#lists.size(topic.answers)}"></th:block></small>
                                     </div> -->
                                     <div class="col text-right">
-                                        <a class="btn btn-primary btn-sm" th:href="@{/topics/{friendlyHash}(friendlyHash=${topic.friendlyHash})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver topic completo</a>
+                                        <a class="btn btn-primary btn-sm" th:href="@{/topic/{friendlyHash}(friendlyHash=${topic.friendlyHash})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver topic completo</a>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +79,7 @@
                 </div>
                 <div class="col-lg-4 order-lg-1 order-0 my-2">
                     <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5 add-topic-square">
-                        <a th:href="@{/topics/create}" class="text-decoration-none">
+                        <a th:href="@{/topic/new}" class="text-decoration-none">
                             <div class="card-body d-flex justify-content-center align-items-center flex-column ">
                                 <i class="fas fa-plus fa-2x "></i>
                                 <p class="mt-4 fa-lg">Adicionar novo topic</p>
@@ -117,10 +90,7 @@
             </div>
             
         </div>
-    </main>
+    </div>
 
-    <!-- <th:block th:include="fragments/footer.html :: footer"></th:block> -->
-
-    <th:block th:include="fragments/scripts.html :: scripts"></th:block>
 </body>
 </html>

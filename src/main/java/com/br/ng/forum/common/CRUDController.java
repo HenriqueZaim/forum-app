@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.br.ng.forum.config.exceptions.BadRequestException;
 import com.br.ng.forum.config.exceptions.ObjectNotFoundException;
 import com.br.ng.forum.domains.DomainEntity;
 import com.devskiller.friendly_id.FriendlyId;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -54,6 +57,19 @@ public abstract class CRUDController<VM extends CRUDViewModel, E extends DomainE
 
 		setNewObjectVariables(vmObject);
 		return getNewModelAndView(vmObject);
+	}
+
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
+	public ModelAndView deleteObject(@RequestParam(name = "friendlyHash") String friendlyHash,
+			RedirectAttributes redirectAttributes, HttpSession session) {
+
+		if(null == friendlyHash || friendlyHash.isEmpty()){
+			throw new BadRequestException("Parâmetros não suportados");
+		}
+
+		this.CRUDApplicationService.removeLogicallyByHash(FriendlyId.toUuid(friendlyHash));
+
+		return search(redirectAttributes, session);
 	}
 
     @GetMapping(path = "/{friendlyHash}")

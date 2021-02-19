@@ -42,7 +42,7 @@
 <body>
     <th:block th:include="fragments/navbar.html :: navbar"></th:block>
 
-    <main class="content">
+    <main class="content" id="app">
         <div class="container mt-5">
             <div class="row ">
                 <div class="col">
@@ -58,12 +58,10 @@
                 </div>
             </div>
             <hr>
-
+            {{count}}
             <div class="row mb-4">
                 <div class="col-lg-12 order-lg-0 order-1 my-2">
-                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">
-                        
-
+                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">                  
                         <form th:action="@{/topic/save}" th:object="${viewModel}" method="post">
                             <th:block th:if="${#fields.detailedErrors().size() > 0}">
                                 <th:block th:each="error : ${#fields.detailedErrors()}">
@@ -85,7 +83,6 @@
                             </div>
                             <button type="submit" class="btn btn-sm btn-success float-right " th:text="${viewModel.friendlyHash == null ? 'Adicionar' : 'Atualizar'}"></button>
                         </form>
-
                     </div>
                 </div>
             </div>
