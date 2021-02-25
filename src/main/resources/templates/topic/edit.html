@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:include="fragments/header.html :: header"></th:block>
+    <title>Home | Fórum NG</title>
+    <style>
+        .add-topic-square{
+            color: #999999;
+            transition: all 150ms ease-in;
+        }
+        
+        .add-topic-square:hover, .add-topic-square:focus{
+            border-color: indigo;
+            color: indigo !important;
+            cursor: pointer;
+        }
+
+        .instant-reply{
+            border: 1px solid #f0f0f0;
+            border-radius: 50%;
+            transition: all 150ms ease-in;
+            background-color: #ffffff;
+        }
+
+        .instant-reply:hover, .instant-reply:focus{
+            border-color: #cccccc;
+            background-color: #f0f0f0;
+        }
+
+        .card{
+            border-top: 3px indigo solid;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        .card.answer{
+            border-top: 3px rgb(75, 75, 75) solid;
+            border-top-right-radius: 0px;
+            border-top-left-radius: 0px;
+        }
+    </style>
+</head>
+<body>
+    <th:block th:include="fragments/navbar.html :: navbar"></th:block>
+
+    <main class="content" id="app">
+        <div class="container mt-5">
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent px-0 mb-0 pb-0">
+                          <li class="breadcrumb-item ">
+                            <a th:href="@{/}">Início</a>
+                          </li>
+                          <li class="breadcrumb-item active" aria-current="page" th:text="${viewModel.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></li>
+                        </ol>
+                      </nav>
+                     <h1 class="display-4" th:text="${viewModel.friendlyHash == null ? 'Novo tópico' : 'Atualizar tópico'}"></h1>
+                </div>
+            </div>
+            <hr>
+            {{count}}
+            <div class="row mb-4">
+                <div class="col-lg-12 order-lg-0 order-1 my-2">
+                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5">                  
+                        <form th:action="@{/topic/save}" th:object="${viewModel}" method="post">
+                            <th:block th:if="${#fields.detailedErrors().size() > 0}">
+                                <th:block th:each="error : ${#fields.detailedErrors()}">
+                                    <div class="alert alert-danger" role="alert">
+                                        <p th:text="${error.message}"></p>
+                                    </div>
+                                </th:block>
+                            </th:block> 
+
+                            <input type="hidden" name="friendlyHash" th:value="${viewModel.friendlyHash}">
+                            <input type="hidden" name="userFriendlyHash" th:value="${#authentication.getPrincipal().getFriendlyHash()}">
+                            <div class="form-group">
+                                <label for="title">Título</label>
+                                <input type="text" class="form-control" th:field="*{title}" aria-describedby="helpId" placeholder="Digite..">
+                            </div>
+                            <div class="form-group">
+                                <label for="editor1" class="sr-only">Texto</label>
+                                <textarea id="editor1" th:field="*{text}" rows="2"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-success float-right " th:text="${viewModel.friendlyHash == null ? 'Adicionar' : 'Atualizar'}"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <th:block th:include="fragments/scripts.html :: scripts"></th:block>
+</body>
+</html>

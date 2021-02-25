@@ -2,8 +2,8 @@ package com.br.ng.forum.config.security.user;
 
 import java.util.Optional;
 
-import com.br.ng.forum.models.User;
-import com.br.ng.forum.repositories.UserRepository;
+import com.br.ng.forum.domains.user.domain.User;
+import com.br.ng.forum.domains.user.persistence.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ public class MyUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByDeletedAtNullAndEmail(email);
 
         user.orElseThrow(() -> new UsernameNotFoundException("Não encontrado: " + email));
 

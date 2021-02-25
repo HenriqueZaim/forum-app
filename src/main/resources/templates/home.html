@@ -1,43 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="fragments/layout-default.html">
 <head>
-    <th:block th:include="fragments/header.html :: header"></th:block>
-    <title>Home | Fórum NG</title>
-    <style>
-        .add-topic-square{
-            color: #999999;
-            transition: all 150ms ease-in;
-        }
-        
-        .add-topic-square:hover, .add-topic-square:focus{
-            border-color: indigo;
-            color: indigo !important;
-            cursor: pointer;
-        }
-
-        .instant-reply{
-            border: 1px solid #f0f0f0;
-            border-radius: 50%;
-            transition: all 150ms ease-in;
-            background-color: #ffffff;
-        }
-
-        .instant-reply:hover, .instant-reply:focus{
-            border-color: #cccccc;
-            background-color: #f0f0f0;
-        }
-
-        .card{
-            border-top: 3px indigo solid;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-        }
-    </style>
+    <title>Bem-vindo ao fórum NG</title>
 </head>
 <body>
-    <th:block th:include="fragments/navbar.html :: navbar"></th:block>
 
-    <main class="content">
+    <th:block layout:fragment="content">
         <div class="container mt-5">
             <div class="row ">
                 <div class="col">
@@ -52,75 +24,79 @@
             </div>
             <hr>
             <div class="row mb-4">
-                <div class="col-lg-8 order-lg-0 order-1 my-2">
-                    <th:block th:each="post : ${posts}">
-                        <div class="card shadow-sm mb-2">
+                <th:block th:each="topicVM : ${topicsVM}">
+                    <div class="col-lg-3 my-2">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <div class="row justify-content-between ">
-                                    <div class="col">
-                                        <small class="text-muted ">Por: <th:block th:text="${post.user.name}"></th:block></small>
-                                    </div>
-                                    <div class="col text-right">
-                                        <small class="text-muted "><i class="fas fa-calendar mr-2" aria-hidden="true"></i>
-                                            <th:block th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
-                                        </small> 
-                                    </div> 
+                                <div class="card-owner mb-2">
+                                    <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="...">
+                                    <h6 class="card-subtitle mb-0 text-muted" th:text="${topicVM.userName}"></h6>
                                 </div>
-                                
-                                <h2 class="h4 font-weight-bold text-truncate mt-2" th:text="${post.title}"></h2>
-                                <p class="lead text-truncate" th:utext="${post.text}"></p>
-                                
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col text-left">
-                                        <small class="text-muted">Respostas: <th:block th:text="${#lists.size(post.answers)}"></th:block></small>
-                                    </div>
-                                    <div class="col text-right">
-                                        <a class="btn btn-primary btn-sm" th:href="@{/posts/{id}(id=${post.id})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver post completo</a>
-                                    </div>
-                                </div>
+                                <h5 class="card-title font-weight-normal" th:text="${topicVM.title}"></h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end">
+                                <a class="btn btn-link" th:href="@{/topic/{friendlyHash}(friendlyHash=${topicVM.friendlyHash})}" role="button">Ver tópico</a>
                             </div>
                         </div>
-                    </th:block>
-                    <div class="row" th:if="${totalPages > 0}">
-                        <div class="col d-flex justify-content-end">
-                            <nav aria-label="Page navigation ">
-                                <ul class="pagination" >
-                                        
-                                    <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-                                        <a class="page-link"  th:href="@{/(page=${currentPage-1})}" tabindex="-1">Anterior</a>
-                                    </li>
-
-                                    <th:block th:each="pageNumber : ${pages}">
-                                        <li class="page-item" th:classappend="${pageNumber-1==currentPage} ? active">
-                                            <a class="page-link"  th:href="@{/(page=${pageNumber-1})}" th:text=${pageNumber}></a>
-                                        </li>
-                                    </th:block>
-
-                                    <li class="page-item" th:classappend="${currentPage+1 == totalPages} ? disabled">
-                                        <a class="page-link"  th:href="@{/(page=${currentPage+1})}" tabindex="-1">Próximo</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 order-lg-1 order-0 my-2">
-                    <div class="card shadow-sm px-2 py-3 px-md-4 py-md-5 add-topic-square">
-                        <a th:href="@{/posts/new}" class="text-decoration-none">
-                            <div class="card-body d-flex justify-content-center align-items-center flex-column ">
-                                <i class="fas fa-plus fa-2x "></i>
-                                <p class="mt-4 fa-lg">Adicionar novo post</p>
-                            </div>
-                        </a>
-                    </div>
+                </th:block>
+            </div>
+            <div class="row" th:if="${totalPages > 0}">
+                <div class="col d-flex justify-content-end">
+                    <nav aria-label="Page navigation ">
+                        <ul class="pagination" >
+                                
+                            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+                                <a class="page-link"  th:href="@{/(page=${currentPage-1})}" tabindex="-1">Anterior</a>
+                            </li>
+
+                            <th:block th:each="pageNumber : ${pages}">
+                                <li class="page-item" th:classappend="${pageNumber-1==currentPage} ? active">
+                                    <a class="page-link"  th:href="@{/(page=${pageNumber-1})}" th:text=${pageNumber}></a>
+                                </li>
+                            </th:block>
+
+                            <li class="page-item" th:classappend="${currentPage+1 == totalPages} ? disabled">
+                                <a class="page-link"  th:href="@{/(page=${currentPage+1})}" tabindex="-1">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
-            
         </div>
-    </main>
+    </th:block>
 
-    <!-- <th:block th:include="fragments/footer.html :: footer"></th:block> -->
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+        </script>
+    </th:block>
 
-    <th:block th:include="fragments/scripts.html :: scripts"></th:block>
 </body>
 </html>
+
+
+<!-- <div class="card-body">
+    <div class="row justify-content-between ">
+        <div class="col">
+            <small class="text-muted ">Por: 
+                <th:block th:text="${topic.user.name}"></th:block>
+            </small>
+        </div>
+    <div class="col text-right">
+        <small class="text-muted "><i class="fas fa-calendar mr-2" aria-hidden="true"></i>
+            <th:block th:text="${#temporals.format(topic.createdAt, 'dd/MM/yyyy HH:mm')}"></th:block>
+        </small> 
+    </div> 
+</div>
+        
+<h2 class="h4 font-weight-bold text-truncate mt-2" th:text="${topic.title}"></h2>
+<p class="lead text-truncate" th:utext="${topic.text}"></p>
+
+<div class="row justify-content-between align-items-center">
+    <div class="col text-right">
+        <a class="btn btn-primary btn-sm" th:href="@{/topic/{friendlyHash}(friendlyHash=${topic.friendlyHash})}" role="button"><i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Ver topic completo</a>
+    </div>
+</div>
+</div>  -->
